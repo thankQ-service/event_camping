@@ -10,7 +10,7 @@
     <!-- 달력 라이브러리 (Flatpickr) 추가 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 
     <script>
         tailwind.config = {
@@ -18,10 +18,15 @@
                 extend: {
                     colors: {
                         camp: {
-                            50: '#f2fbf5',
-                            100: '#e1f6e8',
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
                             500: '#22c55e',
+                            600: '#16a34a',
                             700: '#15803d',
+                            800: '#166534',
                             900: '#14532d',
                         }
                     }
@@ -41,24 +46,36 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
-        /* 항상 표시되는 달력 디자인 커스텀 */
+        /* 항상 표시되는 달력 디자인 커스텀 - 요일과 날짜 정렬 오류 완벽 수정 */
         .flatpickr-calendar.inline {
-            width: 100%;
+            width: 100% !important;
             box-shadow: none;
             border: none;
             padding: 0;
         }
-        .flatpickr-innerContainer, .flatpickr-rContainer, .flatpickr-days {
-            width: 100%;
+        .flatpickr-innerContainer, .flatpickr-rContainer, .flatpickr-days, .flatpickr-weekdays, .flatpickr-weekdaycontainer {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 100% !important;
         }
         .dayContainer {
-            width: 100%;
-            min-width: 100%;
-            justify-content: space-around;
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            justify-content: flex-start;
+        }
+        .flatpickr-day, .flatpickr-weekday {
+            max-width: 14.2857% !important;
+            width: 14.2857% !important;
         }
         .flatpickr-day.selected {
             background: #15803d !important;
             border-color: #15803d !important;
+        }
+        
+        /* 커스텀 슬라이더 (range) 스타일 */
+        input[type=range] {
+            accent-color: #22c55e;
         }
     </style>
 </head>
@@ -451,11 +468,117 @@
                         </li>
                     </ul>
                 </div>
-                <!-- 이미지 영역 -->
-                <div class="w-full lg:w-1/2 flex justify-center">
-                    <img src="https://i.postimg.cc/LX9X21zn/seukeulinsyas-2026-06-12-102154.png" alt="땡큐캠핑 마케팅 지원 예시" class="w-full max-w-md h-auto rounded-2xl shadow-[0_15px_30px_rgba(0,0,0,0.15)] border-2 border-slate-100 object-cover transform hover:scale-[1.02] transition-transform duration-300">
+                <!-- 이미지 영역 (스마트폰 앱 목업 적용 및 배너 합성) -->
+                <div class="w-full lg:w-1/2 flex justify-center py-4">
+                    <div class="relative mx-auto border-slate-900 border-[10px] md:border-[12px] rounded-[2rem] md:rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-camp-500/20 transform hover:scale-[1.02] transition-all duration-500 w-[260px] md:w-[300px] bg-slate-900 flex-shrink-0">
+                        <!-- 측면 전원/볼륨 버튼 디자인 -->
+                        <div class="w-1 h-12 bg-slate-800 absolute -right-[12px] md:-right-[14px] top-32 rounded-r-md"></div>
+                        <div class="w-1 h-10 bg-slate-800 absolute -left-[12px] md:-left-[14px] top-24 rounded-l-md"></div>
+                        <div class="w-1 h-10 bg-slate-800 absolute -left-[12px] md:-left-[14px] top-36 rounded-l-md"></div>
+                        
+                        <!-- 상단 카메라 홀(노치) -->
+                        <div class="absolute top-0 inset-x-0 h-4 md:h-5 w-24 md:w-32 bg-slate-900 mx-auto rounded-b-xl md:rounded-b-2xl z-30"></div>
+                        
+                        <!-- 디스플레이 영역 (비율 자동 맞춤) -->
+                        <div class="rounded-[1.4rem] md:rounded-[1.8rem] overflow-hidden w-full h-full bg-white relative">
+                            <!-- 1. 바탕이 되는 원본 앱 스크린샷 -->
+                            <img src="https://i.postimg.cc/LX9X21zn/seukeulinsyas-2026-06-12-102154.png" alt="땡큐캠핑 앱 배경" class="w-full h-auto relative z-10 block">
+                            
+                            <!-- 2. 교체할 신규 배너 (빨간색 네모 영역에 맞춰 덮어씌움) -->
+                            <div class="absolute z-20" style="top: 32.2%; left: 3.5%; width: 93%; height: 29.8%;">
+                                <img src="https://i.postimg.cc/cHwX0Lny/4Dr5ntx-H.jpg" alt="이벤트 메인 배너" class="w-full h-full object-cover rounded-md shadow-sm">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <!-- 매출 상승 시뮬레이터 (신규 추가) -->
+        <section class="mb-16 bg-slate-50 rounded-3xl p-6 md:p-10 border border-slate-200 shadow-inner">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3 flex flex-col xl:flex-row items-center justify-center gap-3 xl:gap-4">
+                    <span><i class="fas fa-chart-line text-blue-500 mr-2"></i> 매출 상승 시뮬레이션</span>
+                    <span class="text-sm md:text-base font-bold bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full shadow-sm tracking-tight">직접 내 캠핑장 컨디션에 맞게 설정해서 예상 수익을 확인해보세요 💡</span>
+                </h2>
+                <p class="text-slate-600 font-medium text-sm md:text-base">아래 항목들을 우리 캠핑장 상황에 맞게 <strong>직접 조절</strong>해 보시면, 이벤트 시 추가 수익이 얼마나 발생하는지 한눈에 파악하실 수 있습니다.</p>
+            </div>
+
+            <!-- 슬라이더 컨트롤 영역 -->
+            <div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 bg-white p-6 md:p-8 rounded-2xl shadow-lg border-2 border-camp-500 mt-6">
+                <!-- 조작 유도 애니메이션 배지 -->
+                <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-camp-600 text-white px-6 py-2 rounded-full font-extrabold text-sm shadow-md animate-bounce flex items-center whitespace-nowrap z-10 border-2 border-white">
+                    <i class="fas fa-sliders-h mr-2"></i> 버튼을 좌우로 움직여 직접 조절해 보세요!
+                </div>
+                
+                <!-- 총 사이트 수 -->
+                <div class="pt-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-2 flex justify-between">
+                        <span>총 운영 사이트 수</span>
+                        <span class="text-camp-600"><span id="val_roi_sites">50</span>개</span>
+                    </label>
+                    <input type="range" id="roi_sites" min="10" max="150" step="5" value="50" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" oninput="window.calcRoi()">
+                </div>
+                <!-- 평소 예약률 -->
+                <div class="pt-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-2 flex justify-between">
+                        <span>평소 주말 예약률</span>
+                        <span class="text-camp-600"><span id="val_roi_occ">60</span>%</span>
+                    </label>
+                    <input type="range" id="roi_occ" min="10" max="100" step="5" value="60" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" oninput="window.calcRoi()">
+                </div>
+                <!-- 평소 단가 -->
+                <div class="pt-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-2 flex justify-between">
+                        <span>평소 사이트 단가</span>
+                        <span class="text-camp-600"><span id="val_roi_reg_price">50,000</span>원</span>
+                    </label>
+                    <input type="range" id="roi_reg_price" min="30000" max="150000" step="5000" value="50000" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" oninput="window.calcRoi()">
+                </div>
+                <!-- 행사 단가 -->
+                <div class="pt-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-2 flex justify-between">
+                        <span>이벤트 시 단가</span>
+                        <span class="text-blue-600"><span id="val_roi_evt_price">80,000</span>원</span>
+                    </label>
+                    <input type="range" id="roi_evt_price" min="40000" max="200000" step="5000" value="80000" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" oninput="window.calcRoi()">
+                </div>
+            </div>
+
+            <!-- 결과 비교 카드 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+                <!-- 일반 매출 카드 -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-slate-500 mb-1">일반 주말 예상 매출</h4>
+                        <p class="text-xs text-slate-400 mb-4">입력하신 사이트 수 × 평소 예약률 × 평소 단가</p>
+                    </div>
+                    <div class="text-3xl font-extrabold text-slate-800 border-t border-slate-100 pt-4" id="card_reg_rev">
+                        1,500,000<span class="text-lg font-medium text-slate-500 ml-1">원</span>
+                    </div>
+                </div>
+
+                <!-- 행사 매출 카드 -->
+                <div class="bg-slate-900 rounded-2xl p-6 shadow-lg flex flex-col justify-between relative overflow-hidden transform transition hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full mix-blend-overlay filter blur-2xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-1">
+                            <h4 class="font-bold text-blue-400">이벤트 주말 예상 매출</h4>
+                            <span class="bg-rose-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">100% 예약 완료 가정</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-4">입력하신 사이트 수 × 100% 예약 × 이벤트 단가</p>
+                    </div>
+                    <div class="text-3xl font-extrabold text-white border-t border-slate-700 pt-4 relative z-10 flex justify-between items-end">
+                        <span id="card_evt_rev">4,000,000<span class="text-lg font-medium text-slate-400 ml-1">원</span></span>
+                        <div class="text-right">
+                            <span class="block text-[10px] text-slate-400 mb-1">일반 주말 대비 추가 수익</span>
+                            <span class="text-xl text-rose-400 font-bold bg-rose-500/10 px-2 py-1 rounded" id="card_diff_rev">+2,500,000원</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-sm font-medium text-slate-500 mt-6"><i class="fas fa-lightbulb text-amber-500 mr-1"></i> 이벤트 패키지 비용(예: 100만 원)을 지불하고도 훨씬 높은 <strong>추가 순이익</strong>을 가져가실 수 있습니다!</p>
         </section>
 
         <!-- CTA (상담 요청 접수) 영역 -->
@@ -520,11 +643,35 @@
         </div>
     </div>
 
+    <!-- 관리자 인증 모달 (신규 추가) -->
+    <div id="admin_auth_modal" class="hidden fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center transform transition-all">
+            <h3 class="text-lg font-bold text-slate-800 mb-4"><i class="fas fa-lock text-slate-400 mr-2"></i>관리자 접속</h3>
+            <input type="password" id="admin_pwd_input" placeholder="비밀번호를 입력하세요" class="w-full px-4 py-3 rounded-xl border border-slate-300 mb-2 focus:outline-none focus:ring-2 focus:ring-camp-500 transition-colors" onkeyup="if(event.key==='Enter') window.verifyAdmin()">
+            <p id="admin_pwd_error" class="text-xs text-rose-500 mb-4 hidden">비밀번호가 일치하지 않습니다.</p>
+            <div class="flex gap-2 mt-4">
+                <button onclick="window.closeAuthModal()" class="flex-1 bg-slate-100 text-slate-600 font-bold py-3 rounded-xl hover:bg-slate-200 transition-colors">취소</button>
+                <button onclick="window.verifyAdmin()" class="flex-1 bg-slate-800 text-white font-bold py-3 rounded-xl hover:bg-slate-700 transition-colors">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 공통 알림 모달 (신규 추가) -->
+    <div id="custom_alert_modal" class="hidden fixed inset-0 z-[70] bg-black/60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center transform transition-all">
+            <div id="alert_icon" class="mb-4"></div>
+            <h3 id="alert_title" class="text-xl font-bold text-slate-800 mb-2">알림</h3>
+            <p id="alert_message" class="text-sm text-slate-600 mb-6 whitespace-pre-line leading-relaxed"></p>
+            <button onclick="document.getElementById('custom_alert_modal').classList.add('hidden')" class="w-full bg-camp-600 text-white font-bold py-3 rounded-xl hover:bg-camp-500 transition-colors">확인</button>
+        </div>
+    </div>
+
     <!-- Firebase SDK 및 로직 -->
     <script type="module">
         // Firebase 최신 버전 SDK 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        // 상태 변경을 위해 updateDoc, doc 모듈을 추가로 불러옵니다.
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // =========================================================================
         // [중요] 대표님의 파이어베이스 정보가 적용되었습니다.
@@ -550,6 +697,25 @@
         }
 
         // ==============================
+        // 공통 알림창 (Alert 대체)
+        // ==============================
+        window.showAlert = function(title, message, type = 'error') {
+            const modal = document.getElementById('custom_alert_modal');
+            const icon = document.getElementById('alert_icon');
+            document.getElementById('alert_title').innerText = title;
+            document.getElementById('alert_message').innerText = message;
+            
+            if(type === 'success') {
+                icon.innerHTML = '<i class="fas fa-check-circle text-5xl text-camp-500"></i>';
+            } else if(type === 'info') {
+                icon.innerHTML = '<i class="fas fa-info-circle text-5xl text-blue-500"></i>';
+            } else {
+                icon.innerHTML = '<i class="fas fa-exclamation-circle text-5xl text-rose-500"></i>';
+            }
+            modal.classList.remove('hidden');
+        }
+
+        // ==============================
         // 1. 상담 폼 제출 (Firestore 저장)
         // ==============================
         window.submitConsultation = async function() {
@@ -557,14 +723,14 @@
             const campName = document.getElementById('camp_name').value.trim();
             const phone = document.getElementById('phone_number').value.trim();
 
-            if (!dateInput) return alert('희망 행사 일정을 선택해 주세요.');
+            if (!dateInput) return window.showAlert('입력 오류', '희망 행사 일정을 선택해 주세요.');
             if (!campName) {
-                alert('캠핑장명을 입력해 주세요.');
-                return document.getElementById('camp_name').focus();
+                document.getElementById('camp_name').focus();
+                return window.showAlert('입력 오류', '캠핑장명을 입력해 주세요.');
             }
             if (!phone) {
-                alert('연락처를 입력해 주세요.');
-                return document.getElementById('phone_number').focus();
+                document.getElementById('phone_number').focus();
+                return window.showAlert('입력 오류', '연락처를 입력해 주세요.');
             }
 
             try {
@@ -574,13 +740,14 @@
                         eventDate: dateInput,
                         campName: campName,
                         phone: phone,
+                        status: "상담전", // 접수 시 기본 상태를 '상담전'으로 저장합니다.
                         createdAt: new Date().toISOString()
                     });
                 } else {
                     console.log("Firebase 설정이 없어 로컬 테스트로 진행됩니다.");
                 }
 
-                alert(`[접수 완료]\n\n희망 일정: ${dateInput}\n캠핑장명: ${campName}\n연락처: ${phone}\n\n성공적으로 접수되었습니다. 담당자가 확인 후 빠르게 연락드리겠습니다.`);
+                window.showAlert('접수 완료', `희망 일정: ${dateInput}\n캠핑장명: ${campName}\n연락처: ${phone}\n\n성공적으로 접수되었습니다.\n담당자가 확인 후 빠르게 연락드리겠습니다.`, 'success');
                 
                 // 전송 후 입력창 초기화
                 document.getElementById('camp_name').value = '';
@@ -588,21 +755,32 @@
                 
             } catch (error) {
                 console.error("저장 실패:", error);
-                alert("접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+                window.showAlert('접수 실패', '접수 중 오류가 발생했습니다.\n잠시 후 다시 시도해 주세요.');
             }
         }
 
         // ==============================
         // 2. 관리자 로그인 및 데이터 보기
         // ==============================
-        window.checkAdmin = async function() {
-            const password = prompt("관리자 비밀번호를 입력하세요.");
-            
-            if (password === "Net0521") {
+        window.checkAdmin = function() {
+            document.getElementById('admin_pwd_input').value = '';
+            document.getElementById('admin_pwd_error').classList.add('hidden');
+            document.getElementById('admin_auth_modal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('admin_pwd_input').focus(), 100);
+        }
+
+        window.closeAuthModal = function() {
+            document.getElementById('admin_auth_modal').classList.add('hidden');
+        }
+
+        window.verifyAdmin = function() {
+            const pwd = document.getElementById('admin_pwd_input').value;
+            if (pwd === "Net0521") {
+                document.getElementById('admin_auth_modal').classList.add('hidden');
                 document.getElementById('admin_modal').classList.remove('hidden');
                 loadAdminData();
-            } else if (password !== null) {
-                alert("비밀번호가 일치하지 않습니다.");
+            } else {
+                document.getElementById('admin_pwd_error').classList.remove('hidden');
             }
         }
 
@@ -632,21 +810,38 @@
                 }
 
                 let html = '<div class="space-y-4">';
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const docId = docSnap.id; // 상태 수정을 위한 고유 ID 가져오기
+                    
                     // 날짜 포맷 변환 (예: 2026-06-12T09:43:00.000Z -> 2026. 6. 12. 오전 9:43)
                     const submitDate = new Date(data.createdAt).toLocaleString('ko-KR');
+                    const status = data.status || "상담전"; // 예전 데이터 호환용 기본값
+                    
+                    // 상태별 디자인(색상) 동적 적용
+                    let statusColor = "bg-slate-100 text-slate-600 border-slate-200";
+                    if(status === '상담완료') statusColor = "bg-blue-50 text-blue-600 border-blue-200";
+                    if(status === '계약완료') statusColor = "bg-camp-50 text-camp-600 border-camp-200";
+                    if(status === '취소') statusColor = "bg-rose-50 text-rose-600 border-rose-200";
                     
                     html += `
-                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
                             <div>
-                                <div class="text-xs font-bold text-slate-400 mb-1">접수일시: ${submitDate}</div>
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="text-xs font-bold text-slate-400">접수일시: ${submitDate}</span>
+                                </div>
                                 <h3 class="text-lg font-bold text-slate-800"><i class="fas fa-campground text-camp-500 mr-1"></i> ${data.campName}</h3>
                                 <div class="text-slate-600 mt-1 font-medium"><i class="far fa-calendar-check text-slate-400 mr-1"></i> 희망 행사일: <span class="text-blue-600">${data.eventDate}</span></div>
+                                <div class="text-slate-600 mt-1 font-medium"><i class="fas fa-phone-alt text-slate-400 mr-2"></i> 연락처: <span class="font-extrabold tracking-wider">${data.phone}</span></div>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 flex items-center">
-                                <i class="fas fa-phone-alt text-slate-400 mr-2"></i>
-                                <span class="font-extrabold text-slate-700 tracking-wider">${data.phone}</span>
+                            <div class="flex flex-col items-end gap-2">
+                                <!-- 관리자가 상태를 변경할 수 있는 셀렉트 박스 -->
+                                <select onchange="window.updateStatus('${docId}', this.value)" class="text-sm font-bold border rounded-lg px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-camp-500 transition-colors ${statusColor}">
+                                    <option value="상담전" ${status === '상담전' ? 'selected' : ''}>⏳ 상담전</option>
+                                    <option value="상담완료" ${status === '상담완료' ? 'selected' : ''}>💬 상담완료</option>
+                                    <option value="계약완료" ${status === '계약완료' ? 'selected' : ''}>🎉 계약완료</option>
+                                    <option value="취소" ${status === '취소' ? 'selected' : ''}>❌ 취소</option>
+                                </select>
                             </div>
                         </div>
                     `;
@@ -659,16 +854,63 @@
                 listContainer.innerHTML = '<div class="text-center py-10 text-rose-500 font-bold">데이터를 불러오는데 실패했습니다. (콘솔 로그 확인 필요)</div>';
             }
         }
+
+        // ==============================
+        // 3. 관리자 상태 변경 로직
+        // ==============================
+        window.updateStatus = async function(docId, newStatus) {
+            if(!db) return;
+            try {
+                const docRef = doc(db, "consultations", docId);
+                await updateDoc(docRef, { status: newStatus });
+                
+                // 파이어베이스 업데이트 완료 후 리스트 다시 불러오기 (색상 즉시 반영)
+                loadAdminData(); 
+            } catch (error) {
+                console.error("상태 업데이트 실패:", error);
+                window.showAlert('업데이트 오류', '상태를 변경하는 중 오류가 발생했습니다.\n권한 설정을 확인해 주세요.');
+            }
+        }
+
+        // ==============================
+        // 4. ROI 시뮬레이터 계산 로직
+        // ==============================
+        window.calcRoi = function() {
+            const sites = parseInt(document.getElementById('roi_sites').value);
+            const occ = parseInt(document.getElementById('roi_occ').value);
+            const regPrice = parseInt(document.getElementById('roi_reg_price').value);
+            const evtPrice = parseInt(document.getElementById('roi_evt_price').value);
+
+            // 입력값 화면 업데이트
+            document.getElementById('val_roi_sites').innerText = sites;
+            document.getElementById('val_roi_occ').innerText = occ;
+            document.getElementById('val_roi_reg_price').innerText = regPrice.toLocaleString();
+            document.getElementById('val_roi_evt_price').innerText = evtPrice.toLocaleString();
+
+            // 예상 매출 계산
+            const regRevenue = sites * (occ / 100) * regPrice;
+            const evtRevenue = sites * evtPrice; // 마케팅 혜택으로 인한 100% 예약 완료 가정
+            const additionalRevenue = evtRevenue - regRevenue;
+
+            // 결과 화면 업데이트
+            document.getElementById('card_reg_rev').innerHTML = regRevenue.toLocaleString() + '<span class="text-lg font-medium text-slate-500 ml-1">원</span>';
+            document.getElementById('card_evt_rev').innerHTML = evtRevenue.toLocaleString() + '<span class="text-lg font-medium text-slate-400 ml-1">원</span>';
+            document.getElementById('card_diff_rev').innerText = '+' + additionalRevenue.toLocaleString() + '원';
+        }
+
     </script>
 
     <script>
-        // 달력(Flatpickr) 초기화
+        // 달력(Flatpickr) 및 ROI 초기화
         document.addEventListener('DOMContentLoaded', function() {
             flatpickr("#event_date", {
                 inline: true,         
                 locale: "ko",         
                 minDate: "today"      
             });
+
+            // 페이지 로드 시 ROI 자동 계산 1회 실행
+            if(window.calcRoi) window.calcRoi();
         });
     </script>
 </body>
